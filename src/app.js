@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://linces-voley-sales-front.vercel.app/",
+    origin: "https://linces-voley-sales-front.vercel.app",
     credentials: true,
   })
 );
