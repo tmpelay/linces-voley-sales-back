@@ -3,6 +3,7 @@ CREATE TABLE sales (
     dozen_price INTEGER,
     half_dozen_price INTEGER,
     sale_date DATE,
+    active BOOLEAN,
 );
 
 CREATE TABLE orders (
