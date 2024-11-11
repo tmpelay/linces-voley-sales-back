@@ -11,7 +11,6 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://linces-voley-sales-back.onrender.com/",
     credentials: true,
   })
 );
