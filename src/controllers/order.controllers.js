@@ -30,7 +30,7 @@ export const createOrder = async (req, res) => {
       data: {
         client: data.client_name,
         dozenAmount: parseInt(data.dozens_amount),
-        halfDozenAmount: parseInt(data.halfDozenAmount),
+        halfDozenAmount: parseInt(data.half_dozens_amount),
         sellerId: parseInt(data.user_id),
         saleId: parseInt(data.sale_id),
       },

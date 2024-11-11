@@ -32,7 +32,6 @@ export const createSale = async (req, res) => {
         dozenPrice: data.dozen_price,
         halfDozenPrice: data.half_dozen_price,
         date: data.date,
-        active: data.active,
       },
     });
 
