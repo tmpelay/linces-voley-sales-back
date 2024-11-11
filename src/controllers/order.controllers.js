@@ -29,8 +29,8 @@ export const createOrder = async (req, res) => {
     const newOrder = await prisma.order.create({
       data: {
         client: data.client_name,
-        dozenAmount: data.dozens_amount,
-        halfDozenAmount: data.halfDozenAmount,
+        dozenAmount: parseInt(data.dozens_amount),
+        halfDozenAmount: parseInt(data.halfDozenAmount),
         sellerId: parseInt(data.user_id),
         saleId: parseInt(data.sale_id),
       },
