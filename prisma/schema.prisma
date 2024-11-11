@@ -27,7 +27,7 @@ model Sale {
   dozenPrice     Int
   halfDozenPrice Int
   date           DateTime
-  active         Boolean
+  active         Boolean  @default(true)
   Orders         Order[]
 }
 
