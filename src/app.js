@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://localhost:5173",
+    origin: "https://linces-front.vercel.app/",
     credentials: true,
   })
 );
