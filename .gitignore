@@ -1,3 +1,8 @@
+# Node modules
 node_modules
-.env.local
+
+# Environment Files
+.env
+
+# Config
 src/config.js

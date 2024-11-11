@@ -6,11 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --watch --env-file=.env.local src/index.js"
+    "dev": "node --watch --env-file=.env src/index.js"
   },
   "author": "Tomas Malleret",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
@@ -20,5 +21,8 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0"
   }
 }

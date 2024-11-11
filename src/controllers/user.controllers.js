@@ -1,22 +1,27 @@
-import { pool } from "../db.js";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
+const prisma = new PrismaClient();
+
 export const getUsers = async (req, res) => {
-  const { rows } = await pool.query("SELECT * FROM users");
-  return res.json(rows);
+  const users = await prisma.user.findMany();
+  return res.json(users);
 };
 
 export const getUser = async (req, res) => {
   const { userId } = req.params;
-  const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [
-    userId,
-  ]);
 
-  if (rows.length == 0) {
+  const user = await prisma.user.findFirst({
+    where: {
+      id: parseInt(userId),
+    },
+  });
+
+  if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
 
-  return res.json(rows[0]);
+  return res.json(user);
 };
 
 const encryptPassword = async (password) => {
@@ -28,11 +33,17 @@ export const createUser = async (req, res) => {
   try {
     const data = req.body;
     const password = await encryptPassword(data.password);
-    const { rows } = await pool.query(
-      "INSERT INTO users (username, firstname, lastname, password, role) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [data.username, data.firstname, data.lastname, password, data.role]
-    );
-    return res.json(rows[0]);
+
+    const newUser = await prisma.user.create({
+      data: {
+        username: data.username,
+        name: data.name,
+        lastname: data.lastname,
+        password: password,
+      },
+    });
+
+    return res.json(newUser);
   } catch (error) {
     console.log(error);
 
@@ -48,25 +59,38 @@ export const updateUser = async (req, res) => {
   const { userId } = req.params;
   const data = req.body;
   const password = await encryptPassword(data.password);
-  const { rows, rowCount } = await pool.query(
-    "UPDATE users SET username = $1, firstname = $2, lastname = $3, password = $4, role = $5 WHERE id = $6 RETURNING *",
-    [data.username, data.firstname, data.lastname, password, data.role, userId]
-  );
 
-  if (rowCount === 0) {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: parseInt(userId),
+      },
+      data: {
+        username: data.username,
+        name: data.name,
+        lastname: data.lastname,
+        password: password,
+      },
+    });
+  } catch (error) {
     return res.status(404).json({ message: "User not found" });
   }
 
-  return res.json(rows[0]);
+  return res.json(updatedUser);
 };
 
 export const deleteUser = async (req, res) => {
   const { userId } = req.params;
-  const { rowCount } = await pool.query("DELETE FROM users WHERE id = $1", [
-    userId,
-  ]);
 
-  if (rowCount === 0) {
+  try {
+    const deletedUser = await prisma.user.delete({
+      where: {
+        id: parseInt(userId),
+      },
+    });
+
+    return res.json(deletedUser);
+  } catch (error) {
     return res.status(404).json({ message: "User not found" });
   }
 

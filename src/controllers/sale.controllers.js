@@ -1,19 +1,24 @@
-import { pool } from "./../db.js";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export const getSales = async (req, res) => {
-  const { rows } = await pool.query("SELECT * FROM sales");
-  return res.json(rows);
+  const sales = await prisma.sale.findMany();
+  return res.json(sales);
 };
 
 export const getSale = async (req, res) => {
   const { saleId } = req.params;
-  const { rows } = await pool.query("SELECT * FROM sales WHERE id = $1", [
-    saleId,
-  ]);
 
-  if (rows.length == 0) {
+  try {
+    const sale = await prisma.sale.findFirst({
+      where: {
+        id: parseInt(saleId),
+      },
+    });
+
+    return res.json(sale);
+  } catch (error) {
     return res.status(404).json({ message: "Sale not found" });
   }
-
-  return res.json(rows[0]);
 };
