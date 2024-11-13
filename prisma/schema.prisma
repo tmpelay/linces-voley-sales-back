@@ -32,12 +32,12 @@ model Sale {
 }
 
 model Order {
-  id              Int    @id @default(autoincrement())
-  client          String
-  dozenAmount     Int?
-  halfDozenAmount Int?
-  seller          User   @relation(fields: [sellerId], references: [id])
-  sale            Sale   @relation(fields: [saleId], references: [id])
-  sellerId        Int
-  saleId          Int
+  id               Int    @id @default(autoincrement())
+  client           String
+  dozensAmount     Int?
+  halfDozensAmount Int?
+  seller           User   @relation(fields: [sellerId], references: [id])
+  sale             Sale   @relation(fields: [saleId], references: [id])
+  sellerId         Int
+  saleId           Int
 }
