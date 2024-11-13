@@ -34,8 +34,8 @@ model Sale {
 model Order {
   id               Int    @id @default(autoincrement())
   client           String
-  dozensAmount     Int?
-  halfDozensAmount Int?
+  dozensAmount     Int    @default(0)
+  halfDozensAmount Int    @default(0)
   seller           User   @relation(fields: [sellerId], references: [id])
   sale             Sale   @relation(fields: [saleId], references: [id])
   sellerId         Int
